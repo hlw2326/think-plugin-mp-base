@@ -1,6 +1,6 @@
 # 通用基础插件
 
-ThinkAdmin 通用基础插件，提供小程序 / H5 等业务系统共用的基础模块，无需重复开发。
+ThinkAdmin 通用基础插件，适用于微信小程序（其他小程序未测试），提供业务系统共用的基础模块，无需重复开发。
 
 ## 模块说明
 
@@ -34,7 +34,7 @@ ThinkAdmin 通用基础插件，提供小程序 / H5 等业务系统共用的基
 安装后系统自动执行数据库迁移，创建所有数据表和索引，同时注册后台菜单。
 
 ```bash
-composer require hlw2326/think-plugin-base
+composer require hlw2326/think-plugin-mp-base
 ```
 
 安装完成后访问 **系统管理 → 插件中心**，找到"通用基础"插件，点击安装。
