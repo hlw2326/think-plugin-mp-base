@@ -1,0 +1,189 @@
+<form action="{:sysuri()}" method="post" data-auto="true" class="layui-form layui-card" data-table-id="FeedbackTable">
+    <div class="layui-card-body padding-left-40">
+
+        <input type="hidden" name="id" value="{$vo.id|default=''}">
+
+        <div class="layui-row">
+            <div class="layui-col-xs7">
+                <fieldset class="layui-bg-gray">
+                    <legend><b class="layui-badge think-bg-violet">{:lang('聊天记录')}</b></legend>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">{:lang('反馈类型')}</label>
+                        <div class="layui-input-block">
+                            {foreach $types as $k => $v}
+                                {if isset($vo.type) && $vo.type == $k}<span class="layui-badge {$v.class}">{$v.label}</span>{/if}
+                            {/foreach}
+                            <span class="layui-badge layui-bg-gray" style="margin-left:10px;">
+                                {foreach $statuses as $k => $v}
+                                    {if isset($vo.status) && $vo.status == $k}{$v.label}{/if}
+                                {/foreach}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">{:lang('用户ID')}</label>
+                        <div class="layui-input-block">
+                            <span class="layui-form-label-static">{$vo.user_id|default='-'}</span>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">{:lang('联系方式')}</label>
+                        <div class="layui-input-block">
+                            <span class="layui-form-label-static">{$vo.contact|default='-'}</span>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">{:lang('提交时间')}</label>
+                        <div class="layui-input-block">
+                            <span class="layui-form-label-static">{$vo.create_at|default='-'}</span>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">{:lang('反馈内容')}</label>
+                        <div class="layui-input-block">
+                            <p class="layui-form-label-static" style="text-align:left;">{$vo.content|default='-'}</p>
+                        </div>
+                    </div>
+
+                    <!-- 聊天记录区域 -->
+                    <div id="chatList" class="layui-form-item" style="max-height:400px;overflow-y:auto;border:1px solid #e6e6e6;padding:10px;margin:0 15px;">
+                        {empty name="replies"}
+                        <div style="text-align:center;color:#999;padding:20px;">{:lang('暂无聊天记录')}</div>
+                        {else /}
+                        {foreach $replies as $r}
+                        <div class="feedback-chat-item" style="margin-bottom:15px;">
+                            {if $r.sender_type == 1}
+                            <div style="display:flex;align-items:flex-start;justify-content:flex-end;">
+                                <div style="max-width:75%;background:#5a9eff;color:#fff;padding:8px 12px;border-radius:8px 2px 8px 8px;word-break:break-all;">
+                                    <div style="font-size:12px;margin-bottom:4px;color:rgba(255,255,255,0.8);">{:lang('管理员')} {$r.create_at|date='Y-m-d H:i'}</div>
+                                    {$r.content}
+                                </div>
+                            </div>
+                            {else /}
+                            <div style="display:flex;align-items:flex-start;">
+                                <div style="max-width:75%;background:#f0f0f0;color:#333;padding:8px 12px;border-radius:2px 8px 8px 8px;word-break:break-all;">
+                                    <div style="font-size:12px;margin-bottom:4px;color:#999;">{:lang('用户')} {$r.create_at|date='Y-m-d H:i'}</div>
+                                    {$r.content}
+                                </div>
+                            </div>
+                            {/if}
+                        </div>
+                        {/foreach}
+                        {/empty}
+                    </div>
+
+                    <!-- 发送回复 -->
+                    {if isset($vo.status) && $vo.status != 2}
+                    <div class="layui-form-item" style="margin-top:10px;">
+                        <div class="layui-input-block" style="margin-left:0;">
+                            <div style="display:flex;gap:10px;align-items:flex-start;">
+                                <input type="hidden" name="feedback_id" value="{$vo.id|default='0'}">
+                                <textarea name="content" id="replyContent" rows="3" style="flex:1;resize:none;" placeholder="{:lang('请输入回复内容，按 Enter 发送')}" class="layui-textarea" onkeydown="if(event.keyCode==13&&!event.shiftKey){event.preventDefault();sendReply();}"></textarea>
+                                <button type="button" onclick="sendReply()" class="layui-btn layui-btn-normal" style="height:68px;">{:lang('发 送')}</button>
+                            </div>
+                        </div>
+                    </div>
+                    {/if}
+
+                </fieldset>
+            </div>
+
+            <div class="layui-col-xs5">
+                <fieldset class="layui-bg-gray">
+                    <legend><b class="layui-badge think-bg-violet">{:lang('处理操作')}</b></legend>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">{:lang('处理状态')}</label>
+                        <div class="layui-input-block">
+                            <select name="status" lay-append-to>
+                                {foreach $statuses as $k => $v}
+                                <option value="{$k}" {if isset($vo.status) and $vo.status == $k}selected{/if}>{$v.label}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item" style="margin-top:20px;">
+                        <div class="layui-input-block">
+                            <button class="layui-btn layui-btn-normal" type="button" onclick="saveFeedback()">{:lang('保存状态')}</button>
+                            {if isset($vo.status) && $vo.status != 2}
+                            <button class="layui-btn layui-btn-warm" type="button" onclick="closeFeedback()">{:lang('关闭对话')}</button>
+                            {/if}
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="hr-line-dashed"></div>
+
+    <div class="layui-form-item text-center">
+        <button class="layui-btn layui-btn-danger" type="button" data-close>{:lang('关闭')}</button>
+    </div>
+</form>
+
+<script>
+    function sendReply() {
+        var content = $('#replyContent').val().trim();
+        var feedbackId = $('input[name="feedback_id"]').val();
+        if (!content) {
+            $.msg.error('{:lang("回复内容不能为空")}', 3);
+            return;
+        }
+        $.form.load("{:url('send')}", {feedback_id: feedbackId, content: content}, 'post', function (ret) {
+            if (ret.code > 0) {
+                var html = '<div style="display:flex;align-items:flex-start;justify-content:flex-end;margin-bottom:15px;">' +
+                    '<div style="max-width:75%;background:#5a9eff;color:#fff;padding:8px 12px;border-radius:8px 2px 8px 8px;word-break:break-all;">' +
+                    '<div style="font-size:12px;margin-bottom:4px;color:rgba(255,255,255,0.8);">{:lang("管理员")} ' + ret.info + '</div>' +
+                    content +
+                    '</div></div>';
+                $('#chatList').append(html);
+                $('#replyContent').val('');
+                var chatList = document.getElementById('chatList');
+                chatList.scrollTop = chatList.scrollHeight;
+            }
+            return false;
+        }, false);
+    }
+
+    function saveFeedback() {
+        var feedbackId = $('input[name="feedback_id"]').val();
+        var status = $('select[name="status"]').val();
+        $.form.load("{:url('state')}", {id: feedbackId, status: status}, 'post', function (ret) {
+            if (ret.code > 0) {
+                $('#FeedbackTable').trigger('reload');
+            }
+            return false;
+        }, false);
+    }
+
+    function closeFeedback() {
+        var feedbackId = $('input[name="feedback_id"]').val();
+        layer.confirm('{:lang("确定要关闭此对话吗？")}', function (index) {
+            layer.close(index);
+            $.form.load("{:url('close')}", {id: feedbackId}, 'post', function (ret) {
+                if (ret.code > 0) {
+                    $('select[name="status"]').val(2);
+                    $('button[onclick="closeFeedback()"]').remove();
+                    $('#replyContent').attr('disabled', true).closest('.layui-form-item').hide();
+                    $('#FeedbackTable').trigger('reload');
+                }
+                return false;
+            }, false);
+        });
+    }
+
+    $(function () {
+        var chatList = document.getElementById('chatList');
+        if (chatList) {
+            chatList.scrollTop = chatList.scrollHeight;
+        }
+    });
+</script>

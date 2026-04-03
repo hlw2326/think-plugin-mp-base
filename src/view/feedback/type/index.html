@@ -1,0 +1,33 @@
+{extend name="../../admin/view/table"}
+
+{block name="button"}
+<!--{if auth("add")}-->
+<button data-modal='{:url("add")}' data-title="{:lang('添加类型')}" class='layui-btn layui-btn-sm layui-btn-primary'>{:lang('添加类型')}</button>
+<!--{/if}-->
+<!--{if auth("remove")}-->
+<a data-confirm="{:lang('确定要删除这些类型吗？')}" data-table-id="FeedbackTypeTable" data-action='{:url("remove")}' data-rule="id#{id}" class='layui-btn layui-btn-sm layui-btn-danger'>{:lang('批量删除')}</a>
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+<div class="think-box-shadow">
+    {include file='feedback/type/index_search'}
+    <table id="FeedbackTypeTable" data-url="{:sysuri('index')}" data-target-search="form.form-search"></table>
+</div>
+
+<script type="text/html" id="toolbar">
+    <!--{if auth("edit")}-->
+    <a class="layui-btn layui-btn-sm" data-modal='{:url("edit")}?id={{d.id}}'>{:lang('编 辑')}</a>
+    <!--{/if}-->
+    <!--{if auth("remove")}-->
+    <a class="layui-btn layui-btn-sm layui-btn-danger" data-confirm="{:lang('确定删除该类型？')}" data-action="{:url('remove')}" data-value="id#{{d.id}}">{:lang('删 除')}</a>
+    <!--{/if}-->
+</script>
+
+<script type="text/html" id="SortInputTpl">
+    <input type="number" data-blur-number="0"
+           data-action-blur="{:sysuri()}"
+           data-value="id#{{d.id}};action#sort;sort#{value}"
+           data-loading="false" value="{{d.sort}}" class="layui-input text-center">
+</script>
+{/block}

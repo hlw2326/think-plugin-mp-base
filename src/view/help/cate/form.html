@@ -1,0 +1,27 @@
+<form action="{:sysuri()}" method="post" data-auto="true" class="layui-form layui-card" data-table-id="HelpCateTable">
+    <div class="layui-card-body padding-left-40">
+        <input type="hidden" name="id" value="{$vo.id|default=''}">
+
+        <fieldset class="layui-bg-gray">
+            <legend><b class="layui-badge think-bg-violet">{:lang('分类信息')}</b></legend>
+            <div class="layui-row layui-col-space15">
+
+                <div class="layui-col-xs12">
+                    <label class="block relative">
+                        <span class="help-label"><b>{:lang('分类名称')}</b>Name</span>
+                        <input name="name" value='{$vo.name|default=""}' vali-name="{:lang('分类名称')}" required placeholder="{:lang('请输入分类名称')}" class="layui-input">
+                    </label>
+                </div>
+
+            </div>
+        </fieldset>
+
+    </div>
+
+    <div class="hr-line-dashed"></div>
+
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type="submit">{:lang('保存数据')}</button>
+        <button class="layui-btn layui-btn-danger" type="button" data-close>{:lang('取消操作')}</button>
+    </div>
+</form>

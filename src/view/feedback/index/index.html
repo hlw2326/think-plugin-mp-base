@@ -1,0 +1,87 @@
+{extend name="../../../admin/view/table"}
+
+{block name="button"}
+<!--{if auth("remove")}-->
+<a data-confirm="{:lang('确定要删除这些反馈吗？')}" data-table-id="FeedbackTable" data-action='{:url("remove")}' data-rule="id#{id}" class='layui-btn layui-btn-sm layui-btn-danger'>{:lang('批量删除')}</a>
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+<div class="think-box-shadow">
+    {include file='../index_search'}
+    <table id="FeedbackTable" data-url="{:sysuri('index')}" data-target-search="form.form-search"></table>
+</div>
+
+<script>
+    $.typeLabel = (function () {
+        var types = JSON.parse($('#TypesData').text());
+        return function (type) {
+            var item = types[type] || {label: type, 'class': 'layui-bg-gray'};
+            return '<span class="layui-badge ' + item['class'] + '">' + item.label + '</span>';
+        };
+    })();
+
+    $.statusLabel = (function () {
+        var statuses = JSON.parse($('#StatusesData').text());
+        return function (status) {
+            var item = statuses[status] || {label: status, 'class': 'layui-bg-gray'};
+            return '<span class="layui-badge ' + item['class'] + '">' + item.label + '</span>';
+        };
+    })();
+
+    $(function () {
+        $('#FeedbackTable').layTable({
+            even: true, height: 'full',
+            sort: {field: 'id', type: 'desc'},
+            cols: [[
+                {checkbox: true, fixed: true},
+                {field: 'id', title: 'ID', width: 70, align: 'center', sort: true},
+                {field: 'user_id', title: '{:lang("用户ID")}', width: 120, align: 'center'},
+                {field: 'type', title: '{:lang("反馈类型")}', width: 120, align: 'center', templet: '#TypeTpl'},
+                {field: 'content', title: '{:lang("反馈内容")}', minWidth: 200},
+                {field: 'contact', title: '{:lang("联系方式")}', width: 150},
+                {field: 'status', title: '{:lang("状态")}', width: 100, align: 'center', templet: '#StatusTpl'},
+                {field: 'reply_count', title: '{:lang("回复数")}', width: 90, align: 'center'},
+                {field: 'reply_at', title: '{:lang("最新回复")}', width: 160, align: 'center', sort: true},
+                {field: 'create_at', title: '{:lang("提交时间")}', width: 160, align: 'center', sort: true},
+                {toolbar: '#toolbar', title: '{:lang("操作面板")}', width: 260, align: 'left', fixed: 'right'}
+            ]]
+        });
+
+        layui.form.on('switch(StatusSwitch)', function (obj) {
+            var data = {id: obj.value, status: obj.elem.checked > 0 ? 1 : 0};
+            $.form.load("{:url('state')}", data, 'post', function (ret) {
+                if (ret.code < 1) $.msg.error(ret.info, 3, function () {
+                    $('#FeedbackTable').trigger('reload');
+                }); else $('#FeedbackTable').trigger('reload');
+                return false;
+            }, false);
+        });
+    });
+</script>
+
+<label class="layui-hide">
+    <textarea id="TypesData">{:json_encode($types, JSON_UNESCAPED_UNICODE)}</textarea>
+</label>
+
+<label class="layui-hide">
+    <textarea id="StatusesData">{:json_encode($statuses, JSON_UNESCAPED_UNICODE)}</textarea>
+</label>
+
+<script type="text/html" id="TypeTpl">
+    {{- $.typeLabel(d.type) }}
+</script>
+
+<script type="text/html" id="StatusTpl">
+    {{- $.statusLabel(d.status) }}
+</script>
+
+<script type="text/html" id="toolbar">
+    <!--{if auth("reply")}-->
+    <a class="layui-btn layui-btn-sm" data-modal='{:url("reply")}?id={{d.id}}'>{:lang('回 复')}</a>
+    <!--{/if}-->
+    <!--{if auth("remove")}-->
+    <a class="layui-btn layui-btn-sm layui-btn-danger" data-confirm="{:lang('确定删除该反馈？')}" data-action="{:url('remove')}" data-value="id#{{d.id}}">{:lang('删 除')}</a>
+    <!--{/if}-->
+</script>
+{/block}

@@ -1,0 +1,64 @@
+<?php
+
+declare(strict_types=1);
+
+use plugin\base\model\PluginBaseFeedbackType;
+use think\admin\extend\PhinxExtend;
+use think\migration\Migrator;
+
+@set_time_limit(0);
+@ini_set('memory_limit', '-1');
+
+class InstallBaseFeedbackType extends Migrator
+{
+    /**
+     * 创建反馈类型表
+     */
+    public function up(): void
+    {
+        $table = $this->table('plugin_base_feedback_type', [
+            'engine' => 'InnoDB',
+            'collation' => 'utf8mb4_general_ci',
+            'comment' => '插件-反馈类型',
+        ]);
+
+        // 创建或更新数据表
+        PhinxExtend::upgrade($table, [
+            ['name', 'string', ['limit' => 50, 'default' => '', 'null' => true, 'comment' => '类型名称']],
+            ['code', 'string', ['limit' => 20, 'default' => '', 'null' => true, 'comment' => '类型编码']],
+            ['class', 'string', ['limit' => 50, 'default' => 'layui-bg-blue', 'null' => true, 'comment' => '样式Class']],
+            ['sort', 'integer', ['limit' => 11, 'default' => 0, 'null' => true, 'comment' => '排序权重']],
+            ['status', 'integer', ['limit' => 1, 'default' => 1, 'null' => true, 'comment' => '状态(0禁用,1启用)']],
+            ['create_at', 'datetime', ['default' => null, 'null' => true, 'comment' => '创建时间']],
+            ['update_at', 'datetime', ['default' => null, 'null' => true, 'comment' => '更新时间']],
+        ], [
+            'code',
+            'status',
+            'sort',
+        ]);
+
+        $this->insertData();
+    }
+
+    /**
+     * 插入默认数据
+     */
+    private function insertData(): void
+    {
+        $model = PluginBaseFeedbackType::mk()->whereRaw('1=1')->findOrEmpty();
+        $model->isEmpty() && $model->insertAll([
+            ['name' => '功能反馈', 'code' => 'feedback',  'class' => 'layui-bg-blue',   'sort' => 100, 'status' => 1],
+            ['name' => '优化建议', 'code' => 'suggest',   'class' => 'layui-bg-green',  'sort' => 90,  'status' => 1],
+            ['name' => '问题反馈', 'code' => 'bug',       'class' => 'layui-bg-orange', 'sort' => 80,  'status' => 1],
+            ['name' => '投诉建议', 'code' => 'complaint', 'class' => 'layui-bg-red',    'sort' => 70,  'status' => 1],
+        ]);
+    }
+
+    /**
+     * 回滚时删除表
+     */
+    public function down(): void
+    {
+        $this->table('plugin_base_feedback_type')->drop();
+    }
+}

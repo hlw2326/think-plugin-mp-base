@@ -1,0 +1,42 @@
+{extend name="main"}
+
+{block name="content"}
+<form action="{:sysuri()}" method="post" class="layui-form layui-card" data-auto="true" data-table-id="HelpTable">
+    <div class="layui-card-body">
+
+        <label class="layui-form-item relative block">
+            <span class="help-label"><b>{:lang('文章标题')}</b>Title</span>
+            <input name="title" value='{$vo.title|default=""}' vali-name="{:lang('文章标题')}" required placeholder="{:lang('请输入文章标题')}" class="layui-input">
+        </label>
+
+        <label class="layui-form-item relative block">
+            <span class="help-label"><b>{:lang('所属分类')}</b>Category</span>
+            <select name="cate_id" vali-name="{:lang('所属分类')}" required lay-append-to>
+                <option value="">-- {:lang('请选择分类')} --</option>
+                {foreach $cates as $cate_id => $cate_name}
+                <option value="{$cate_id}" {if isset($vo.cate_id) and $vo.cate_id eq $cate_id}selected{/if}>{$cate_name}</option>
+                {/foreach}
+            </select>
+        </label>
+
+        <label class="layui-form-item relative block">
+            <span class="help-label"><b>{:lang('文章内容')}</b>Content</span>
+            <textarea name="content" style="height:300px" class="layui-textarea" placeholder="{:lang('请输入文章内容')}">{$vo.content|default=''}</textarea>
+        </label>
+
+        <div class="hr-line-dashed"></div>
+        {notempty name='vo.id'}<input name="id" type="hidden" value="{$vo.id}">{/notempty}
+
+        <div class="layui-form-item text-center">
+            <button class="layui-btn" type="submit">{:lang('保存数据')}</button>
+            <button class="layui-btn layui-btn-danger" data-target-backup type="button" data-confirm="{:lang('确定要取消编辑吗？')}">{:lang('取消编辑')}</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    require(['ckeditor'], function () {
+        window.createEditor('[name=content]', {height: 550});
+    });
+</script>
+{/block}
