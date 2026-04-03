@@ -1,6 +1,6 @@
 {
     "type": "think-admin-plugin",
-    "name": "hlw2326/think-plugin-base",
+    "name": "hlw2326/think-plugin-mp-base",
     "homepage": "https://www.hlw2326.com",
     "description": "ThinkAdmin 通用基础插件",
     "license": "MIT",
@@ -16,13 +16,13 @@
     },
     "autoload": {
         "psr-4": {
-            "plugin\\base\\": "src"
+            "plugin\\mp\\base\\": "src"
         }
     },
     "extra": {
         "think": {
             "services": [
-                "plugin\\base\\Service"
+                "plugin\\mp\\base\\Service"
             ]
         },
         "plugin": {

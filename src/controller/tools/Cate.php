@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace plugin\base\controller\tools;
+namespace plugin\mp\base\controller\tools;
 
-use plugin\base\model\PluginBaseToolsCate;
+use plugin\mp\base\model\PluginBaseToolsCate;
 use think\admin\Controller;
 use think\admin\helper\QueryHelper;
 
 /**
  * 工具分类
  * @class Cate
- * @package plugin\base\controller\tools
+ * @package plugin\mp\base\controller\tools
  */
 class Cate extends Controller
 {

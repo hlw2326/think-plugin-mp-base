@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace plugin\base\model;
+namespace plugin\mp\base\model;
 
 use think\admin\Model;
 
@@ -14,7 +14,7 @@ use think\admin\Model;
  * @property int $admin_id 管理员ID
  * @property string $create_at 创建时间
  * @class PluginBaseFeedbackReply
- * @package plugin\base\model
+ * @package plugin\mp\base\model
  */
 class PluginBaseFeedbackReply extends Model
 {

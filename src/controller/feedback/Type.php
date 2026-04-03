@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace plugin\base\controller\feedback;
+namespace plugin\mp\base\controller\feedback;
 
-use plugin\base\model\PluginBaseFeedbackType;
+use plugin\mp\base\model\PluginBaseFeedbackType;
 use think\admin\Controller;
 use think\admin\helper\QueryHelper;
 
 /**
  * 反馈类型
  * @class Type
- * @package plugin\base\controller\feedback
+ * @package plugin\mp\base\controller\feedback
  */
 class Type extends Controller
 {

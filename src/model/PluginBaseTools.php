@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace plugin\base\model;
+namespace plugin\mp\base\model;
 
 use think\admin\Model;
 
@@ -20,7 +20,7 @@ use think\admin\Model;
  * @property string $create_at 创建时间
  * @property string $update_at 更新时间
  * @class PluginBaseTools
- * @package plugin\base\model
+ * @package plugin\mp\base\model
  */
 class PluginBaseTools extends Model
 {

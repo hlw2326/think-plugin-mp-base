@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use plugin\base\model\PluginBaseFeedbackType;
+use plugin\mp\base\model\PluginBaseFeedbackType;
 use think\admin\extend\PhinxExtend;
 use think\migration\Migrator;
 

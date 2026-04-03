@@ -1,17 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace plugin\base\controller\help;
+namespace plugin\mp\base\controller\help;
 
-use plugin\base\model\PluginBaseHelp;
-use plugin\base\model\PluginBaseHelpCate;
+use plugin\mp\base\model\PluginBaseHelp;
+use plugin\mp\base\model\PluginBaseHelpCate;
 use think\admin\Controller;
 use think\admin\helper\QueryHelper;
 
 /**
  * 帮助管理
  * @class Index
- * @package plugin\base\controller\help
+ * @package plugin\mp\base\controller\help
  */
 class Index extends Controller
 {

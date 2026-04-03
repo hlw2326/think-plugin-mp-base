@@ -1,18 +1,18 @@
 <?php
 declare(strict_types=1);
 
-namespace plugin\base\controller\feedback;
+namespace plugin\mp\base\controller\feedback;
 
-use plugin\base\model\PluginBaseFeedback;
-use plugin\base\model\PluginBaseFeedbackReply;
-use plugin\base\model\PluginBaseFeedbackType;
+use plugin\mp\base\model\PluginBaseFeedback;
+use plugin\mp\base\model\PluginBaseFeedbackReply;
+use plugin\mp\base\model\PluginBaseFeedbackType;
 use think\admin\Controller;
 use think\admin\helper\QueryHelper;
 
 /**
  * 反馈建议
  * @class Index
- * @package plugin\base\controller\feedback
+ * @package plugin\mp\base\controller\feedback
  */
 class Index extends Controller
 {

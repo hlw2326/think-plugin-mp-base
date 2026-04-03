@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace plugin\base;
+namespace plugin\mp\base;
 
 use think\admin\Plugin;
 
 /**
  * 通用基础插件服务注册
  * @class Service
- * @package plugin\base
+ * @package plugin\mp\base
  */
 class Service extends Plugin
 {
@@ -23,7 +23,7 @@ class Service extends Plugin
      * 定义安装包名
      * @var string
      */
-    protected $package = 'hlw2326/think-plugin-base';
+    protected $package = 'hlw2326/think-plugin-mp-base';
 
     /**
      * 注册模块菜单（菜单由 stc 迁移脚本写入 system_menu，此处用于插件中心显示）
