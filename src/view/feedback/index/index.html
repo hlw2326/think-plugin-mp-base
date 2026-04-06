@@ -1,6 +1,9 @@
-{extend name="../../../admin/view/table"}
+{extend name="table"}
 
 {block name="button"}
+<!--{if auth("add")}-->
+<button data-modal='{:url("add")}' data-title="{:lang('添加反馈')}" class='layui-btn layui-btn-sm layui-btn-primary'>{:lang('添加反馈')}</button>
+<!--{/if}-->
 <!--{if auth("remove")}-->
 <a data-confirm="{:lang('确定要删除这些反馈吗？')}" data-table-id="FeedbackTable" data-action='{:url("remove")}' data-rule="id#{id}" class='layui-btn layui-btn-sm layui-btn-danger'>{:lang('批量删除')}</a>
 <!--{/if}-->
@@ -8,7 +11,7 @@
 
 {block name="content"}
 <div class="think-box-shadow">
-    {include file='../index_search'}
+    {include file='feedback/index/index_search'}
     <table id="FeedbackTable" data-url="{:sysuri('index')}" data-target-search="form.form-search"></table>
 </div>
 

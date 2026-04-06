@@ -1,7 +1,7 @@
 <form action="{:sysuri()}" method="post" data-auto="true" class="layui-form layui-card" data-table-id="FeedbackTable">
     <div class="layui-card-body padding-left-40">
 
-        <input type="hidden" name="id" value="{$vo.id|default=''}">
+        {notempty name='vo.id'}<input type="hidden" value="{$vo.id}" name="id">{/notempty}
 
         <div class="layui-row">
             <div class="layui-col-xs7">

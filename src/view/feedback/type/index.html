@@ -1,4 +1,4 @@
-{extend name="../../admin/view/table"}
+{extend name="table"}
 
 {block name="button"}
 <!--{if auth("add")}-->
@@ -29,5 +29,41 @@
            data-action-blur="{:sysuri()}"
            data-value="id#{{d.id}};action#sort;sort#{value}"
            data-loading="false" value="{{d.sort}}" class="layui-input text-center">
+</script>
+
+<script type="text/html" id="StatusSwitchTpl">
+    <!--{if auth("state")}-->
+    <input type="checkbox" value="{{d.id}}" lay-skin="switch" lay-text="{:lang('已启用')}|{:lang('已禁用')}" lay-filter="StatusSwitch" {{-d.status>0?'checked':''}}>
+    <!--{else}-->
+    {{-d.status ? '<b class="color-green">{:lang("已启用")}</b>' : '<b class="color-red">{:lang("已禁用")}</b>'}}
+    <!--{/if}-->
+</script>
+
+<script>
+    $(function () {
+        $('#FeedbackTypeTable').layTable({
+            even: true, height: 'full',
+            sort: {field: 'sort', type: 'desc'},
+            cols: [[
+                {checkbox: true, fixed: true},
+                {field: 'id', title: 'ID', width: 70, align: 'center', sort: true},
+                {field: 'name', title: '{:lang("类型名称")}', minWidth: 160},
+                {field: 'code', title: '{:lang("类型编码")}', width: 160, align: 'center'},
+                {field: 'sort', title: '{:lang("排序")}', width: 120, align: 'center', templet: '#SortInputTpl'},
+                {field: 'status', title: '{:lang("状态")}', width: 120, align: 'center', templet: '#StatusSwitchTpl'},
+                {field: 'create_at', title: '{:lang("创建时间")}', width: 160, align: 'center', sort: true},
+                {toolbar: '#toolbar', title: '{:lang("操作面板")}', width: 200, align: 'left', fixed: 'right'}
+            ]]
+        });
+        layui.form.on('switch(StatusSwitch)', function (obj) {
+            var data = {id: obj.value, status: obj.elem.checked > 0 ? 1 : 0};
+            $.form.load("{:url('state')}", data, 'post', function (ret) {
+                if (ret.code < 1) $.msg.error(ret.info, 3, function () {
+                    $('#FeedbackTypeTable').trigger('reload');
+                }); else $('#FeedbackTypeTable').trigger('reload');
+                return false;
+            }, false);
+        });
+    });
 </script>
 {/block}

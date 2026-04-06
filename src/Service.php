@@ -38,12 +38,12 @@ class Service extends Plugin
                     [
                         'name' => '帮助分类',
                         'icon' => 'layui-icon layui-icon-theme',
-                        'node' => "{$code}/help/cate",
+                        'node' => "{$code}/help.cate/index",
                     ],
                     [
                         'name' => '帮助文章',
                         'icon' => 'layui-icon layui-icon-help',
-                        'node' => "{$code}/help/index",
+                        'node' => "{$code}/help.index/index",
                     ]
                 ],
             ],
@@ -53,12 +53,12 @@ class Service extends Plugin
                     [
                         'name' => '工具分类',
                         'icon' => 'layui-icon layui-icon-theme',
-                        'node' => "{$code}/tools/cate",
+                        'node' => "{$code}/tools.cate/index",
                     ],
                     [
                         'name' => '工具列表',
                         'icon' => 'layui-icon layui-icon-util',
-                        'node' => "{$code}/tools/index",
+                        'node' => "{$code}/tools.index/index",
                     ],
                 ],
             ],
@@ -67,13 +67,13 @@ class Service extends Plugin
                 'subs' => [
                     [
                         'name' => '反馈列表',
-                        'icon' => 'layui-icon layui-icon-reply-batch',
-                        'node' => "{$code}/feedback/index/index",
+                        'icon' => 'layui-icon layui-icon-rss',
+                        'node' => "{$code}/feedback.index/index",
                     ],
                     [
                         'name' => '反馈类型',
-                        'icon' => 'layui-icon layui-icon-tabs',
-                        'node' => "{$code}/feedback/type/index",
+                        'icon' => 'iconfont iconfont-tag',
+                        'node' => "{$code}/feedback.type/index",
                     ],
                 ],
             ],

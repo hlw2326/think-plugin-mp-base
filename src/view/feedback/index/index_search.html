@@ -15,7 +15,7 @@
                 <select class="layui-select" name="type" lay-append-to>
                     <option value="">-- {:lang('全部')} --</option>
                     {foreach $types as $k => $v}
-                    <option value="{$k}" {if isset($get.type) && $get.type == $k}selected{/if}>{$v}</option>
+                    <option value="{$k}" {if isset($get.type) && $get.type == $k}selected{/if}>{$v.label}</option>
                     {/foreach}
                 </select>
             </div>
