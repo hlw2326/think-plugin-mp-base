@@ -22,6 +22,7 @@ class InstallBaseHelp extends Migrator
         ]);
 
         PhinxExtend::upgrade($table, [
+<<<<<<< HEAD
             [
                 'cate_id',
                 'integer',
@@ -62,6 +63,16 @@ class InstallBaseHelp extends Migrator
                 'timestamp',
                 ['default' => 'CURRENT_TIMESTAMP', 'null' => false, 'comment' => '更新时间']
             ],
+=======
+            ['cate_id', 'integer', ['limit' => 11, 'default' => 0, 'null' => true, 'comment' => '分类ID']],
+            ['title', 'string', ['limit' => 200, 'default' => '', 'null' => true, 'comment' => '文章标题']],
+            ['content', 'text', ['default' => null, 'null' => true, 'comment' => '文章内容']],
+            ['views', 'integer', ['limit' => 11, 'default' => 0, 'null' => true, 'comment' => '访问次数']],
+            ['sort', 'integer', ['limit' => 11, 'default' => 0, 'null' => true, 'comment' => '排序权重']],
+            ['status', 'integer', ['limit' => 1, 'default' => 1, 'null' => true, 'comment' => '状态(0禁用,1启用)']],
+            ['create_at', 'timestamp', ['default' => 'CURRENT_TIMESTAMP', 'null' => false, 'comment' => '创建时间']],
+            ['update_at', 'timestamp', ['default' => 'CURRENT_TIMESTAMP', 'null' => false, 'comment' => '更新时间']],
+>>>>>>> 0c61f9001ca69a4d4393b498481b4cd06340e178
         ], [
             'cate_id',
             'status',
