@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace plugin\mp\base\controller\feedback;
@@ -58,18 +59,30 @@ class Index extends Controller
      */
     public function reply(): void
     {
-        $this->_applyFormToken();
+        //$this->_applyFormToken();
         $id = $this->request->get('id/d', 0);
-        $this->vo = PluginBaseFeedback::mk()->findOrEmpty($id);
+
+        // POST：保存状态
+        if ($this->request->isPost()) {
+            $data = $this->_vali([
+                'id.require'      => '反馈ID不能为空！',
+                'id.integer'      => '反馈ID格式错误！',
+                'status.in:0,1,2' => '状态值范围异常！',
+                'status.require'  => '状态值不能为空！',
+            ]);
+            PluginBaseFeedback::mk()->where('id', $data['id'])->update(['status' => intval($data['status'])]);
+            $this->success('状态保存成功');
+        }
+
+        $this->title = '回复反馈';
         $this->types    = PluginBaseFeedbackType::getTypes();
         $this->statuses = PluginBaseFeedback::getStatuses();
-        $this->replies  = PluginBaseFeedbackReply::mk()
-            ->where(['feedback_id' => $id])
-            ->order('create_at asc')
-            ->select()
-            ->toArray();
 
-        $this->_form($id);
+        // 直接查 replies，然后通过 $edata['replies'] 传给模板
+        $this->replies = PluginBaseFeedbackReply::mk()->where(['feedback_id' => $id])->order('create_at asc')->select()->toArray();
+
+        //print_r($this->replies);
+        PluginBaseFeedback::mForm('form');
     }
 
     /**
@@ -78,11 +91,12 @@ class Index extends Controller
      */
     public function send(): void
     {
+        //$this->_applyFormToken();
         $data = $this->_vali([
             'feedback_id.require' => '反馈ID不能为空！',
-            'feedback_id.integer' => '反馈ID格式错误！',
+            'feedback_id.integer'  => '反馈ID格式错误！',
             'content.require'      => '回复内容不能为空！',
-            'content.max:500'     => '回复内容不能超过500字！',
+            'content.max:500'      => '回复内容不能超过500字！',
         ]);
 
         $feedback = PluginBaseFeedback::mk()->findOrEmpty($data['feedback_id']);
@@ -92,18 +106,19 @@ class Index extends Controller
 
         $adminId = \think\admin\service\AdminService::getUserId();
 
-        PluginBaseFeedbackReply::mCreate([
+        PluginBaseFeedbackReply::mk()->insert([
             'feedback_id' => $data['feedback_id'],
             'sender_type' => 1,
             'content'     => $data['content'],
             'admin_id'    => $adminId,
+            'create_at'   => date('Y-m-d H:i:s'),
         ]);
 
         PluginBaseFeedback::mk()->where('id', $data['feedback_id'])->update([
             'status' => 1,
         ]);
 
-        $this->success('回复成功');
+        $this->success('回复成功', ['time' => date('m-d H:i')]);
     }
 
     /**
@@ -112,6 +127,7 @@ class Index extends Controller
      */
     public function close(): void
     {
+        $this->_applyFormToken();
         $data = $this->_vali([
             'id.require' => '反馈ID不能为空！',
             'id.integer' => '反馈ID格式错误！',
