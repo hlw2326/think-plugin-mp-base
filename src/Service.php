@@ -26,6 +26,16 @@ class Service extends Plugin
     protected $package = 'hlw2326/think-plugin-mp-base';
 
     /**
+     * 注册路由
+     */
+    public function boot(): void
+    {
+        // ThinkAdmin 插件根据控制器命名空间自动发现路由，无需手动注册
+        // 路由映射规则：plugin\{code}\controller\{module}\{controller}@{action}
+        // 本插件：plugin\mp\base\controller\api\v1\Feedback::submit → /api/v1/feedback/submit
+    }
+
+    /**
      * 注册模块菜单（菜单由 stc 迁移脚本写入 system_menu，此处用于插件中心显示）
      */
     public static function menu(): array

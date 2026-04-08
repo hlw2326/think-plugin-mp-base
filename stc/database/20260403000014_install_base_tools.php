@@ -22,68 +22,6 @@ class InstallBaseTools extends Migrator
         ]);
 
         PhinxExtend::upgrade($table, [
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 06e1aad13524cc985f5de5e7709a38d999d228b3
-            [
-                'cate_id',
-                'integer',
-                ['limit' => 11, 'default' => 0, 'null' => true, 'comment' => '分类ID']
-            ],
-            [
-                'name',
-                'string',
-                ['limit' => 100, 'default' => '', 'null' => true, 'comment' => '工具名称']
-            ],
-            [
-                'logo',
-                'string',
-                ['limit' => 500, 'default' => '', 'null' => true, 'comment' => '工具Logo']
-            ],
-            [
-                'desc',
-                'string',
-                ['limit' => 500, 'default' => '', 'null' => true, 'comment' => '工具描述']
-            ],
-            [
-                'jump_type',
-                'string',
-                ['limit' => 30, 'default' => 'navigateTo', 'null' => true, 'comment' => '跳转类型']
-            ],
-            [
-                'jump_value',
-                'string',
-                ['limit' => 500, 'default' => '', 'null' => true, 'comment' => '跳转值']
-            ],
-            [
-                'click_count',
-                'integer',
-                ['limit' => 11, 'default' => 0, 'null' => true, 'comment' => '点击次数']
-            ],
-            [
-                'sort',
-                'integer',
-                ['limit' => 11, 'default' => 0, 'null' => true, 'comment' => '排序权重']
-            ],
-            [
-                'status',
-                'integer',
-                ['limit' => 1, 'default' => 1, 'null' => true, 'comment' => '状态(0禁用,1启用)']
-            ],
-            [
-                'create_at',
-                'timestamp',
-                ['default' => 'CURRENT_TIMESTAMP', 'null' => false, 'comment' => '创建时间']
-            ],
-            [
-                'update_at',
-                'timestamp',
-                ['default' => 'CURRENT_TIMESTAMP', 'null' => false, 'comment' => '更新时间']
-            ],
-<<<<<<< HEAD
-=======
-=======
             ['cate_id', 'integer', ['limit' => 11, 'default' => 0, 'null' => true, 'comment' => '分类ID']],
             ['name', 'string', ['limit' => 100, 'default' => '', 'null' => true, 'comment' => '工具名称']],
             ['logo', 'string', ['limit' => 500, 'default' => '', 'null' => true, 'comment' => '工具Logo']],
@@ -95,8 +33,6 @@ class InstallBaseTools extends Migrator
             ['status', 'integer', ['limit' => 1, 'default' => 1, 'null' => true, 'comment' => '状态(0禁用,1启用)']],
             ['create_at', 'timestamp', ['default' => 'CURRENT_TIMESTAMP', 'null' => false, 'comment' => '创建时间']],
             ['update_at', 'timestamp', ['default' => 'CURRENT_TIMESTAMP', 'null' => false, 'comment' => '更新时间']],
->>>>>>> 0c61f9001ca69a4d4393b498481b4cd06340e178
->>>>>>> 06e1aad13524cc985f5de5e7709a38d999d228b3
         ], [
             'jump_type',
             'status',

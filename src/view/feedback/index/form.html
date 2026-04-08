@@ -7,10 +7,7 @@
         <!-- 标题栏 -->
         <div class="fb-header">
             <div class="fb-header-left">
-<<<<<<< HEAD
-=======
                 <b class="fb-title">{:lang('回复反馈')}</b>
->>>>>>> 06e1aad13524cc985f5de5e7709a38d999d228b3
                 {foreach $types as $k => $v}
                     {if isset($vo.type) && $vo.type == $k}
                     <span class="layui-badge {$v.class}">{$v.label}</span>
@@ -24,11 +21,7 @@
                     <option value="{$k}" {if isset($vo.status) and $vo.status == $k}selected{/if}>{$v.label}</option>
                     {/foreach}
                 </select>
-<<<<<<< HEAD
-                <button type="button" onclick="saveFeedback()" class="layui-btn">{:lang('保存')}</button>
-=======
                 <button type="button" onclick="saveFeedback()" class="layui-btn layui-btn-sm layui-btn-normal ">{:lang('保存')}</button>
->>>>>>> 06e1aad13524cc985f5de5e7709a38d999d228b3
             </div>
         </div>
 
@@ -48,10 +41,7 @@
                 </div>
             </div>
             {notempty name="vo.content"}
-<<<<<<< HEAD
-=======
             <div class="fb-content-sep"></div>
->>>>>>> 06e1aad13524cc985f5de5e7709a38d999d228b3
             <div class="fb-content-box">
                 <div class="fb-content-quote">
                     <i class="layui-icon layui-icon-dialogue fb-icon-quote"></i>{:lang('反馈内容')}
@@ -119,11 +109,7 @@
 .fb-title{font-size:14px;}
 .fb-time{color:#999;font-size:12px;}
 .fb-user-info{padding:12px 20px;border-bottom:1px solid #eee;background:#fafafa;}
-<<<<<<< HEAD
 .fb-user-card{display:flex;align-items:center;gap:10px;margin-bottom: 20px;}
-=======
-.fb-user-card{display:flex;align-items:center;gap:10px;}
->>>>>>> 06e1aad13524cc985f5de5e7709a38d999d228b3
 .fb-user-avatar{width:36px;height:36px;border-radius:50%;background:#eee;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .fb-icon-avatar{font-size:22px!important;color:#999!important;}
 .fb-user-detail{font-size:13px;}
@@ -131,10 +117,7 @@
 .fb-user-id span{color:#333;font-weight:600;}
 .fb-user-contact{color:#999;font-size:12px;margin-top:2px;display:flex;align-items:center;}
 .fb-icon-contact{font-size:12px!important;margin-right:3px!important;}
-<<<<<<< HEAD
-=======
 .fb-content-sep{border-top:1px dashed #ddd;margin:10px 0;}
->>>>>>> 06e1aad13524cc985f5de5e7709a38d999d228b3
 .fb-content-box{background:#fff;border:1px solid #eee;border-radius:6px;padding:10px 14px;}
 .fb-content-quote{font-size:12px;color:#999;margin-bottom:6px;display:flex;align-items:center;}
 .fb-icon-quote{font-size:14px!important;margin-right:4px!important;opacity:0.4!important;}
