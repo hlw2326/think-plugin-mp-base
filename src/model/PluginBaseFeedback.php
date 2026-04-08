@@ -55,7 +55,7 @@ class PluginBaseFeedback extends Model
     public static function getStatuses(): array
     {
         return [
-            0 => ['label' => lang('待处理'), 'class' => 'layui-bg-gray'],
+            0 => ['label' => lang('待处理'), 'class' => 'layui-bg-red'],
             1 => ['label' => lang('处理中'), 'class' => 'layui-bg-blue'],
             2 => ['label' => lang('已完成'), 'class' => 'layui-bg-green'],
         ];

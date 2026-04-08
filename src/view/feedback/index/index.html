@@ -1,9 +1,7 @@
 {extend name="table"}
 
 {block name="button"}
-<!--{if auth("add")}-->
-<button data-modal='{:url("add")}' data-title="{:lang('添加反馈')}" class='layui-btn layui-btn-sm layui-btn-primary'>{:lang('添加反馈')}</button>
-<!--{/if}-->
+
 <!--{if auth("remove")}-->
 <a data-confirm="{:lang('确定要删除这些反馈吗？')}" data-table-id="FeedbackTable" data-action='{:url("remove")}' data-rule="id#{id}" class='layui-btn layui-btn-sm layui-btn-danger'>{:lang('批量删除')}</a>
 <!--{/if}-->

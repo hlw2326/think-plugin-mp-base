@@ -47,12 +47,12 @@
             cols: [[
                 {checkbox: true, fixed: true},
                 {field: 'id', title: 'ID', width: 70, align: 'center', sort: true},
-                {field: 'name', title: '{:lang("类型名称")}', minWidth: 160},
+                {field: 'name', title: '{:lang("类型名称")}', width: 160},
                 {field: 'code', title: '{:lang("类型编码")}', width: 160, align: 'center'},
                 {field: 'sort', title: '{:lang("排序")}', width: 120, align: 'center', templet: '#SortInputTpl'},
                 {field: 'status', title: '{:lang("状态")}', width: 120, align: 'center', templet: '#StatusSwitchTpl'},
                 {field: 'create_at', title: '{:lang("创建时间")}', width: 160, align: 'center', sort: true},
-                {toolbar: '#toolbar', title: '{:lang("操作面板")}', width: 200, align: 'left', fixed: 'right'}
+                {toolbar: '#toolbar', title: '{:lang("操作面板")}'}
             ]]
         });
         layui.form.on('switch(StatusSwitch)', function (obj) {
