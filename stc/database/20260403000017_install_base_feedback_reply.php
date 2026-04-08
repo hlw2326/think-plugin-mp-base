@@ -22,11 +22,31 @@ class InstallBaseFeedbackReply extends Migrator
         ]);
 
         PhinxExtend::upgrade($table, [
-            ['feedback_id', 'integer', ['limit' => 11, 'default' => 0, 'null' => true, 'comment' => '反馈ID']],
-            ['sender_type', 'integer', ['limit' => 1, 'default' => 0, 'null' => true, 'comment' => '发送者类型(0用户,1管理员)']],
-            ['content', 'text', ['default' => null, 'null' => true, 'comment' => '回复内容']],
-            ['admin_id', 'integer', ['limit' => 11, 'default' => 0, 'null' => true, 'comment' => '管理员ID']],
-            ['create_at', 'datetime', ['default' => null, 'null' => true, 'comment' => '创建时间']],
+            [
+                'feedback_id',
+                'integer',
+                ['limit' => 11, 'default' => 0, 'null' => true, 'comment' => '反馈ID']
+            ],
+            [
+                'sender_type',
+                'integer',
+                ['limit' => 1, 'default' => 0, 'null' => true, 'comment' => '发送者类型(0用户,1管理员)']
+            ],
+            [
+                'content',
+                'text',
+                ['default' => null, 'null' => true, 'comment' => '回复内容']
+            ],
+            [
+                'admin_id',
+                'integer',
+                ['limit' => 11, 'default' => 0, 'null' => true, 'comment' => '管理员ID']
+            ],
+            [
+                'create_at',
+                'timestamp',
+                ['default' => 'CURRENT_TIMESTAMP', 'null' => false, 'comment' => '创建时间']
+            ],
         ], [
             'feedback_id',
             'sender_type',

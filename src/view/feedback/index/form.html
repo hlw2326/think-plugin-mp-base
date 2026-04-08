@@ -1,167 +1,181 @@
-<form action="{:sysuri()}" method="post" data-auto="true" class="layui-form layui-card" data-table-id="FeedbackTable">
-    <div class="layui-card-body padding-left-40">
+<form action="{:url('reply')}" method="post" data-auto="false" class="layui-form layui-card" data-table-id="FeedbackTable">
+    {notempty name='vo.id'}<input type="hidden" value="{$vo.id}" name="id">{/notempty}
 
-        {notempty name='vo.id'}<input type="hidden" value="{$vo.id}" name="id">{/notempty}
+    <div class="layui-card-body fb-body">
 
-        <div class="layui-row">
-            <div class="layui-col-xs7">
-                <fieldset class="layui-bg-gray">
-                    <legend><b class="layui-badge think-bg-violet">{:lang('聊天记录')}</b></legend>
-
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">{:lang('反馈类型')}</label>
-                        <div class="layui-input-block">
-                            {foreach $types as $k => $v}
-                                {if isset($vo.type) && $vo.type == $k}<span class="layui-badge {$v.class}">{$v.label}</span>{/if}
-                            {/foreach}
-                            <span class="layui-badge layui-bg-gray" style="margin-left:10px;">
-                                {foreach $statuses as $k => $v}
-                                    {if isset($vo.status) && $vo.status == $k}{$v.label}{/if}
-                                {/foreach}
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">{:lang('用户ID')}</label>
-                        <div class="layui-input-block">
-                            <span class="layui-form-label-static">{$vo.user_id|default='-'}</span>
-                        </div>
-                    </div>
-
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">{:lang('联系方式')}</label>
-                        <div class="layui-input-block">
-                            <span class="layui-form-label-static">{$vo.contact|default='-'}</span>
-                        </div>
-                    </div>
-
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">{:lang('提交时间')}</label>
-                        <div class="layui-input-block">
-                            <span class="layui-form-label-static">{$vo.create_at|default='-'}</span>
-                        </div>
-                    </div>
-
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">{:lang('反馈内容')}</label>
-                        <div class="layui-input-block">
-                            <p class="layui-form-label-static" style="text-align:left;">{$vo.content|default='-'}</p>
-                        </div>
-                    </div>
-
-                    <!-- 聊天记录区域 -->
-                    <div id="chatList" class="layui-form-item" style="max-height:400px;overflow-y:auto;border:1px solid #e6e6e6;padding:10px;margin:0 15px;">
-                        {empty name="replies"}
-                        <div style="text-align:center;color:#999;padding:20px;">{:lang('暂无聊天记录')}</div>
-                        {else /}
-                        {foreach $replies as $r}
-                        <div class="feedback-chat-item" style="margin-bottom:15px;">
-                            {if $r.sender_type == 1}
-                            <div style="display:flex;align-items:flex-start;justify-content:flex-end;">
-                                <div style="max-width:75%;background:#5a9eff;color:#fff;padding:8px 12px;border-radius:8px 2px 8px 8px;word-break:break-all;">
-                                    <div style="font-size:12px;margin-bottom:4px;color:rgba(255,255,255,0.8);">{:lang('管理员')} {$r.create_at|date='Y-m-d H:i'}</div>
-                                    {$r.content}
-                                </div>
-                            </div>
-                            {else /}
-                            <div style="display:flex;align-items:flex-start;">
-                                <div style="max-width:75%;background:#f0f0f0;color:#333;padding:8px 12px;border-radius:2px 8px 8px 8px;word-break:break-all;">
-                                    <div style="font-size:12px;margin-bottom:4px;color:#999;">{:lang('用户')} {$r.create_at|date='Y-m-d H:i'}</div>
-                                    {$r.content}
-                                </div>
-                            </div>
-                            {/if}
-                        </div>
-                        {/foreach}
-                        {/empty}
-                    </div>
-
-                    <!-- 发送回复 -->
-                    {if isset($vo.status) && $vo.status != 2}
-                    <div class="layui-form-item" style="margin-top:10px;">
-                        <div class="layui-input-block" style="margin-left:0;">
-                            <div style="display:flex;gap:10px;align-items:flex-start;">
-                                <input type="hidden" name="feedback_id" value="{$vo.id|default='0'}">
-                                <textarea name="content" id="replyContent" rows="3" style="flex:1;resize:none;" placeholder="{:lang('请输入回复内容，按 Enter 发送')}" class="layui-textarea" onkeydown="if(event.keyCode==13&&!event.shiftKey){event.preventDefault();sendReply();}"></textarea>
-                                <button type="button" onclick="sendReply()" class="layui-btn layui-btn-normal" style="height:68px;">{:lang('发 送')}</button>
-                            </div>
-                        </div>
-                    </div>
+        {notempty name='vo.id'}
+        <!-- 标题栏 -->
+        <div class="fb-header">
+            <div class="fb-header-left">
+                <b class="fb-title">{:lang('回复反馈')}</b>
+                {foreach $types as $k => $v}
+                    {if isset($vo.type) && $vo.type == $k}
+                    <span class="layui-badge {$v.class}">{$v.label}</span>
                     {/if}
-
-                </fieldset>
+                {/foreach}
             </div>
-
-            <div class="layui-col-xs5">
-                <fieldset class="layui-bg-gray">
-                    <legend><b class="layui-badge think-bg-violet">{:lang('处理操作')}</b></legend>
-
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">{:lang('处理状态')}</label>
-                        <div class="layui-input-block">
-                            <select name="status" lay-append-to>
-                                {foreach $statuses as $k => $v}
-                                <option value="{$k}" {if isset($vo.status) and $vo.status == $k}selected{/if}>{$v.label}</option>
-                                {/foreach}
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="layui-form-item" style="margin-top:20px;">
-                        <div class="layui-input-block">
-                            <button class="layui-btn layui-btn-normal" type="button" onclick="saveFeedback()">{:lang('保存状态')}</button>
-                            {if isset($vo.status) && $vo.status != 2}
-                            <button class="layui-btn layui-btn-warm" type="button" onclick="closeFeedback()">{:lang('关闭对话')}</button>
-                            {/if}
-                        </div>
-                    </div>
-                </fieldset>
+            <div class="fb-header-right">
+                <span class="fb-time">{$vo.create_at|default=''}</span>
+                    <select name="status" lay-append-to class="layui-select">
+                    {foreach $statuses as $k => $v}
+                    <option value="{$k}" {if isset($vo.status) and $vo.status == $k}selected{/if}>{$v.label}</option>
+                    {/foreach}
+                </select>
+                <button type="button" onclick="saveFeedback()" class="layui-btn layui-btn-sm layui-btn-normal ">{:lang('保存')}</button>
             </div>
         </div>
 
-    </div>
+        <!-- 用户信息+反馈内容（上下虚线分割） -->
+        <div class="fb-user-info">
+            <div class="fb-user-card">
+                <div class="fb-user-avatar">
+                    <i class="layui-icon layui-icon-username fb-icon-avatar"></i>
+                </div>
+                <div class="fb-user-detail">
+                    <div class="fb-user-id">{:lang('用户ID')}：<span>{$vo.user_id|default='-'}</span></div>
+                    {notempty name="vo.contact"}
+                    <div class="fb-user-contact">
+                        <i class="layui-icon layui-icon-cellphone fb-icon-contact"></i>{$vo.contact}
+                    </div>
+                    {/notempty}
+                </div>
+            </div>
+            {notempty name="vo.content"}
+            <div class="fb-content-sep"></div>
+            <div class="fb-content-box">
+                <div class="fb-content-quote">
+                    <i class="layui-icon layui-icon-dialogue fb-icon-quote"></i>{:lang('反馈内容')}
+                </div>
+                <div class="fb-content-text">{$vo.content}</div>
+            </div>
+            {/notempty}
+        </div>
 
-    <div class="hr-line-dashed"></div>
+        <!-- 聊天记录 -->
+        <div id="chatList" class="fb-chat">
+            {empty name="replies"}
+            <div class="fb-chat-empty">{:lang('暂无聊天记录')}</div>
+            {else /}
+            {foreach $replies as $r}
+            {if $r.sender_type == 1}
+            <div class="fb-chat-item fb-chat-right">
+                <div class="fb-chat-inner">
+                    <div class="fb-chat-meta">{:lang('管理员')} · {$r.create_at|date='m-d H:i'}</div>
+                    <div class="fb-chat-bubble fb-chat-bubble-right">{$r.content}</div>
+                </div>
+            </div>
+            {else /}
+            <div class="fb-chat-item fb-chat-left">
+                <div class="fb-chat-inner">
+                    <div class="fb-chat-meta">{:lang('用户')} · {$r.create_at|date='m-d H:i'}</div>
+                    <div class="fb-chat-bubble fb-chat-bubble-left">{$r.content}</div>
+                </div>
+            </div>
+            {/if}
+            {/foreach}
+            {/empty}
+        </div>
 
-    <div class="layui-form-item text-center">
-        <button class="layui-btn layui-btn-danger" type="button" data-close>{:lang('关闭')}</button>
+        <!-- 输入区 -->
+        <div class="fb-input-area">
+            {if isset($vo.status) && $vo.status != 2}
+            <div class="fb-input-row">
+                <input type="hidden" name="feedback_id" value="{$vo.id|default='0'}">
+                <textarea id="replyContent" placeholder="{:lang('输入回复内容，按 Enter 发送')}" class="layui-textarea fb-textarea" onkeydown="if(event.keyCode==13&&!event.shiftKey){event.preventDefault();sendReply();}"></textarea>
+                <button type="button" onclick="sendReply()" class="layui-btn layui-btn-normal fb-btn-send">{:lang('发 送')}</button>
+            </div>
+            {else /}
+            <div class="fb-closed-msg">{:lang('对话已关闭，无法发送消息')}</div>
+            {/if}
+        </div>
+
+        <!-- 底部 -->
+        <div class="fb-footer">
+            <button type="button" class="layui-btn layui-btn-primary layui-btn-sm" data-close>{:lang('关闭')}</button>
+            {if isset($vo.status) && $vo.status != 2}
+            <button type="button" onclick="closeFeedback()" class="layui-btn layui-btn-sm layui-btn-warm fb-btn-close-dialog">{:lang('关闭对话')}</button>
+            {/if}
+        </div>
+        {/notempty}
+
     </div>
 </form>
+
+<style>
+.fb-body{padding:0!important;}
+.fb-header{padding:12px 20px;background:#f5f5f5;border-bottom:1px solid #eee;display:flex;align-items:center;justify-content:space-between;}
+.fb-header-left{display:flex;align-items:center;gap:8px;}
+.fb-header-right{display:flex;align-items:center;gap:8px;}
+.fb-title{font-size:14px;}
+.fb-time{color:#999;font-size:12px;}
+.fb-user-info{padding:12px 20px;border-bottom:1px solid #eee;background:#fafafa;}
+.fb-user-card{display:flex;align-items:center;gap:10px;}
+.fb-user-avatar{width:36px;height:36px;border-radius:50%;background:#eee;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.fb-icon-avatar{font-size:22px!important;color:#999!important;}
+.fb-user-detail{font-size:13px;}
+.fb-user-id{color:#666;}
+.fb-user-id span{color:#333;font-weight:600;}
+.fb-user-contact{color:#999;font-size:12px;margin-top:2px;display:flex;align-items:center;}
+.fb-icon-contact{font-size:12px!important;margin-right:3px!important;}
+.fb-content-sep{border-top:1px dashed #ddd;margin:10px 0;}
+.fb-content-box{background:#fff;border:1px solid #eee;border-radius:6px;padding:10px 14px;}
+.fb-content-quote{font-size:12px;color:#999;margin-bottom:6px;display:flex;align-items:center;}
+.fb-icon-quote{font-size:14px!important;margin-right:4px!important;opacity:0.4!important;}
+.fb-content-text{font-size:13px;color:#333;line-height:1.6;}
+.fb-chat{height:280px;overflow-y:auto;padding:15px 20px;background:#fff;}
+.fb-chat-empty{text-align:center;color:#ddd;padding:80px 0;font-size:14px;}
+.fb-chat-item{margin-bottom:10px;display:flex;}
+.fb-chat-right{justify-content:flex-end;}
+.fb-chat-left{justify-content:flex-start;}
+.fb-chat-inner{max-width:70%;}
+.fb-chat-right .fb-chat-inner{text-align:right;}
+.fb-chat-left .fb-chat-inner{text-align:left;}
+.fb-chat-meta{font-size:11px;color:#bbb;margin-bottom:3px;}
+.fb-chat-bubble{display:inline-block;padding:7px 12px;font-size:13px;line-height:1.5;}
+.fb-chat-bubble-right{background:#1677ff;color:#fff;border-radius:12px 2px 12px 12px;}
+.fb-chat-bubble-left{background:#f0f0f0;color:#333;border-radius:2px 12px 12px 12px;}
+.fb-input-area{padding:10px 20px;border-top:1px solid #eee;background:#f9f9f9;}
+.fb-input-row{display:flex;gap:8px;align-items:center;}
+.fb-textarea{resize:none;flex:1;height:40px;font-size:13px;}
+.fb-btn-send{height:40px!important;line-height:40px!important;}
+.fb-closed-msg{text-align:center;color:#ccc;font-size:13px;padding:8px;}
+.fb-footer{padding:8px 20px;border-top:1px solid #eee;background:#f5f5f5;text-align:center;}
+.fb-btn-close-dialog{margin-left:8px;}
+</style>
 
 <script>
     function sendReply() {
         var content = $('#replyContent').val().trim();
         var feedbackId = $('input[name="feedback_id"]').val();
-        if (!content) {
-            $.msg.error('{:lang("回复内容不能为空")}', 3);
-            return;
-        }
-        $.form.load("{:url('send')}", {feedback_id: feedbackId, content: content}, 'post', function (ret) {
+        if (!content) { $.msg.error('{:lang("回复内容不能为空")}', 3); return; }
+        $.post("{:url('send')}", {feedback_id: feedbackId, content: content}, function (ret) {
             if (ret.code > 0) {
-                var html = '<div style="display:flex;align-items:flex-start;justify-content:flex-end;margin-bottom:15px;">' +
-                    '<div style="max-width:75%;background:#5a9eff;color:#fff;padding:8px 12px;border-radius:8px 2px 8px 8px;word-break:break-all;">' +
-                    '<div style="font-size:12px;margin-bottom:4px;color:rgba(255,255,255,0.8);">{:lang("管理员")} ' + ret.info + '</div>' +
-                    content +
-                    '</div></div>';
+                var html = '<div class="fb-chat-item fb-chat-right"><div class="fb-chat-inner"><div class="fb-chat-meta">{:lang("管理员")} · ' + (ret._data && ret._data.time || '') + '</div><div class="fb-chat-bubble fb-chat-bubble-right">' + content + '</div></div></div>';
                 $('#chatList').append(html);
                 $('#replyContent').val('');
-                var chatList = document.getElementById('chatList');
-                chatList.scrollTop = chatList.scrollHeight;
+                var cl = document.getElementById('chatList');
+                cl.scrollTop = cl.scrollHeight;
+            } else {
+                $.msg.error(ret.info || '{:lang("发送失败")}', 3);
             }
-            return false;
-        }, false);
+        }, 'json');
     }
 
     function saveFeedback() {
-        var feedbackId = $('input[name="feedback_id"]').val();
-        var status = $('select[name="status"]').val();
-        $.form.load("{:url('state')}", {id: feedbackId, status: status}, 'post', function (ret) {
+        var form = $('form[data-auto="false"]');
+        $.post(form[0].action, form.serialize(), function (ret) {
             if (ret.code > 0) {
-                $('#FeedbackTable').trigger('reload');
+                $.msg.success(ret.info || '{:lang("保存成功")}', 2, function () {
+                    $('#FeedbackTable').trigger('reload');
+                    if (typeof layer !== 'undefined') {
+                        var index = layer.index || parent.layer.getFrameIndex(window.name);
+                        if (index) layer.close(index);
+                    }
+                });
+            } else {
+                $.msg.error(ret.info || '{:lang("保存失败")}', 3);
             }
-            return false;
-        }, false);
+        }, 'json');
     }
 
     function closeFeedback() {
@@ -172,8 +186,8 @@
                 if (ret.code > 0) {
                     $('select[name="status"]').val(2);
                     $('button[onclick="closeFeedback()"]').remove();
-                    $('#replyContent').attr('disabled', true).closest('.layui-form-item').hide();
-                    $('#FeedbackTable').trigger('reload');
+                    $('#replyContent').attr('disabled', true).val('');
+                    $('.fb-input-row').html('<div class="fb-closed-msg">{:lang("对话已关闭，无法发送消息")}</div>');
                 }
                 return false;
             }, false);
@@ -181,9 +195,7 @@
     }
 
     $(function () {
-        var chatList = document.getElementById('chatList');
-        if (chatList) {
-            chatList.scrollTop = chatList.scrollHeight;
-        }
+        var cl = document.getElementById('chatList');
+        if (cl) cl.scrollTop = cl.scrollHeight;
     });
 </script>
