@@ -42,7 +42,7 @@ class Service extends Plugin
                     ],
                     [
                         'name' => '帮助文章',
-                        'icon' => 'layui-icon layui-icon-help',
+                        'icon' => 'layui-icon layui-icon-rss',
                         'node' => "{$code}/help.index/index",
                     ]
                 ],
